@@ -52,6 +52,19 @@ class SuluMediaExtension extends Extension implements PrependExtensionInterface
 
     public function prepend(ContainerBuilder $container)
     {
+        if ($container->hasExtension('framework')) {
+            $container->prependExtensionConfig(
+                'framework',
+                [
+                    'exceptions' => [
+                        MediaNotFoundException::class => [
+                            'status_code' => '404',
+                        ],
+                    ],
+                ]
+            );
+        }
+
         if ($container->hasExtension('sulu_search')) {
             $container->prependExtensionConfig(
                 'sulu_search',
